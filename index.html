@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            background-size: cover;
+            height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="input-location" type="text" class="form-control"
+                    placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="find-weather" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <img src="https://openweathermap.org/img/wn/02d@2x.png" alt="">
+            <h1>City Name: <span id="city-name"></span></h1>
+            <h3>Temperature: <span id="temperature"></span>&deg;C</h3>
+            <h1 class="lead">Weather Condition: <span id="weather-condition" ></span></h1>
+        </div>
+    </div>
+    <script>
+        const button = document.getElementById('find-weather');
+        const inputValue = document.getElementById('input-location');
+        const cityName = document.getElementById('city-name');
+        const cityTem = document.getElementById('temperature');
+        const cityWeather = document.getElementById('weather-condition');
+
+        button.addEventListener('click', function (){
+            fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputValue.value+'&units=metric&appid=89894f9026f32276d3fbb3cb795ed36a')
+                .then(response => response.json())
+                .then(data => {
+                    // console.log(data);
+                    const city = data.name;
+                    // console.log(city);
+                    const temperature = data.main.temp;
+                    // console.log(temperature);
+                    const weather = data.weather[0].main;
+                    // console.log(weather);
+
+                    cityName.innerHTML = city;
+                    cityTem.innerHTML = temperature;
+                    cityWeather.innerHTML = weather;
+                })
+        
+            .catch(err => alert("Wrong city name!"));
+        })
+
+
+        // fetch('http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=89894f9026f32276d3fbb3cb795ed36a')
+        // .then(response => response.json())
+        // .then(json =>{console.log(json)
+
+        //     const city = json.city.name;
+        //     // document.getElementById('city-name').innerText = city;
+
+        //     const findTemp = json.list[0];
+        //     const temperature = findTemp.main.temp;
+        //     // document.getElementById('temperature').innerText = (temperature / 10).toFixed(2);
+
+        //     const findWeather = json.list[0].weather[0];
+        //     console.log(findWeather);
+        //     const weather = findWeather.main;
+        //     console.log(weather);
+        //     // document.getElementById('weather-condition').innerText = weather;
+
+
+        //     document.getElementById('find-weather').addEventListener('click', function(){
+        //         const location = document.getElementById('input-location').value;
+        //         if (location == city) {
+        //             document.getElementById('city-name').innerText = location;
+        //             document.getElementById('temperature').innerText = (temperature / 10).toFixed(2);
+        //             document.getElementById('weather-condition').innerText = weather;
+        //         }
+        //     })
+        // });
+    </script>
+</body>
+
+</html>
